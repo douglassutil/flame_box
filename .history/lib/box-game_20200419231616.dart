@@ -59,8 +59,6 @@ class BoxGame extends Game {
     lostView = LostView(this);
     helpButton = HelpButton(this);
     creditsButton = CreditsButton(this);
-    helpView = HelpView(this);
-    creditsView = CreditsView(this);
 
     spawner = FlySpawner(this);
     
@@ -69,14 +67,6 @@ class BoxGame extends Game {
   void onTapDown(TapDownDetails d) {
 
     bool isHandled = false;
-
-    // Caixa de diálogo de help e créditos
-    if (!isHandled) {
-      if (activeView == View.help || activeView == View.credits) {
-        activeView = View.home;
-        isHandled = true;
-      }
-    }
 
     // Botão help
     if (!isHandled && helpButton.rect.contains(d.globalPosition)) {
@@ -167,14 +157,6 @@ class BoxGame extends Game {
       helpButton.render(canvas);
       creditsButton.render(canvas);
     }
-
-    // Desenha a tela de Help
-    if (activeView == View.help)
-      helpView.render(canvas);
-    
-    // Desenha a tela de Credits
-    if (activeView == View.credits)
-      creditsView.render(canvas);
     
   }
 

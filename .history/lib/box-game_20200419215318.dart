@@ -3,21 +3,14 @@ import 'dart:math';
 
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
-
-import 'package:flame_box/view.dart';
-
+import 'package:flame_box/components/start-button.dart';
 import 'package:flame_box/controllers/spawner.dart';
-
-import 'package:flame_box/views/home-view.dart';
-import 'package:flame_box/views/credits-view.dart';
-import 'package:flame_box/views/help-view.dart';
 import 'package:flame_box/views/lost-view.dart';
 
 import 'package:flutter/gestures.dart';
 
-import 'package:flame_box/components/credits-button.dart';
-import 'package:flame_box/components/help-button.dart';
-import 'package:flame_box/components/start-button.dart';
+import 'package:flame_box/view.dart';
+import 'package:flame_box/views/home-view.dart';
 import 'package:flame_box/components/backyard.dart';
 import 'package:flame_box/components/fly.dart';
 import 'package:flame_box/components/house-fly.dart';
@@ -37,12 +30,7 @@ class BoxGame extends Game {
   View activeView = View.home;
   HomeView homeView;
   LostView lostView;
-  HelpView helpView;
-  CreditsView creditsView;
-
   StartButton startButton;
-  HelpButton helpButton;
-  CreditsButton creditsButton;
 
   BoxGame() {
     initialize();
@@ -57,10 +45,6 @@ class BoxGame extends Game {
     homeView = HomeView(this);
     startButton = StartButton(this);
     lostView = LostView(this);
-    helpButton = HelpButton(this);
-    creditsButton = CreditsButton(this);
-    helpView = HelpView(this);
-    creditsView = CreditsView(this);
 
     spawner = FlySpawner(this);
     
@@ -70,31 +54,6 @@ class BoxGame extends Game {
 
     bool isHandled = false;
 
-    // Caixa de diálogo de help e créditos
-    if (!isHandled) {
-      if (activeView == View.help || activeView == View.credits) {
-        activeView = View.home;
-        isHandled = true;
-      }
-    }
-
-    // Botão help
-    if (!isHandled && helpButton.rect.contains(d.globalPosition)) {
-      if (activeView == View.home || activeView == View.lost) {
-        helpButton.onTapDown();
-        isHandled = true;
-      }
-    }
-
-    // Botão credits
-    if (!isHandled && creditsButton.rect.contains(d.globalPosition)) {
-      if (activeView == View.home || activeView == View.lost) {
-        creditsButton.onTapDown();
-        isHandled = true;
-      }
-    }
-
-    // Botão start
     if (!isHandled && startButton.rect.contains(d.globalPosition)) {
       if (activeView == View.home || activeView == View.lost) {
         startButton.onTapDown();
@@ -102,7 +61,6 @@ class BoxGame extends Game {
       }
     }
 
-    // Moscas
     if (!isHandled) {
 
       bool didHitAFly = false;
@@ -161,21 +119,9 @@ class BoxGame extends Game {
     if (activeView == View.lost) 
       lostView.render(canvas);
 
-    // Desenha o Botão de Start && Help && Credits
-    if (activeView == View.home || activeView == View.lost){
+    // Desenha o Botão de Start
+    if (activeView == View.home || activeView == View.lost)
       startButton.render(canvas);
-      helpButton.render(canvas);
-      creditsButton.render(canvas);
-    }
-
-    // Desenha a tela de Help
-    if (activeView == View.help)
-      helpView.render(canvas);
-    
-    // Desenha a tela de Credits
-    if (activeView == View.credits)
-      creditsView.render(canvas);
-    
   }
 
   void update(double t) {

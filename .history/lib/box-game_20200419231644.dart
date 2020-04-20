@@ -70,14 +70,6 @@ class BoxGame extends Game {
 
     bool isHandled = false;
 
-    // Caixa de diálogo de help e créditos
-    if (!isHandled) {
-      if (activeView == View.help || activeView == View.credits) {
-        activeView = View.home;
-        isHandled = true;
-      }
-    }
-
     // Botão help
     if (!isHandled && helpButton.rect.contains(d.globalPosition)) {
       if (activeView == View.home || activeView == View.lost) {
@@ -167,14 +159,6 @@ class BoxGame extends Game {
       helpButton.render(canvas);
       creditsButton.render(canvas);
     }
-
-    // Desenha a tela de Help
-    if (activeView == View.help)
-      helpView.render(canvas);
-    
-    // Desenha a tela de Credits
-    if (activeView == View.credits)
-      creditsView.render(canvas);
     
   }
 
